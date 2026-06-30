@@ -1,0 +1,11 @@
+name: poc-ci
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: marker
+        run: echo "POC-RUN actor=${{ github.actor }} event=${{ github.event_name }} pr=${{ github.event.number }} head=${{ github.event.pull_request.head.sha }}"
