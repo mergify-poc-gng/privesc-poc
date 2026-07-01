@@ -2,11 +2,10 @@ queue_rules:
   - name: default
     merge_conditions: []
 pull_request_rules:
-  - name: auto-merge when green
+  - name: auto-queue write-authors only
     conditions:
       - base=main
-      - "#check-failure=0"
-      - "#check-pending=0"
+      - author-permission>=write
     actions:
       queue:
         name: default
