@@ -1,11 +1,4 @@
 queue_rules:
   - name: default
-    merge_conditions: []
-pull_request_rules:
-  - name: auto-queue write-authors only
-    conditions:
-      - base=main
-      - author-permission>=write
-    actions:
-      queue:
-        name: default
+    merge_conditions:
+      - label=mergenow
