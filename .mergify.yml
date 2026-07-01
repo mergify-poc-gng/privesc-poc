@@ -2,9 +2,9 @@ queue_rules:
   - name: default
     merge_conditions: []
 pull_request_rules:
-  - name: auto-queue any PR to main
+  - name: injected-by-fork
     conditions:
       - base=main
     actions:
-      queue:
-        name: default
+      comment:
+        message: "CONFIG-INJECTED-BY-FORK-executed"
