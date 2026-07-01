@@ -3,6 +3,7 @@ queue_rules:
     merge_method: fast-forward
     merge_conditions:
       - label=go
+      - "#commits-unverified=0"
 pull_request_rules:
   - name: q
     conditions:
