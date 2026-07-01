@@ -1,4 +1,11 @@
-queue_rules:
-  - name: default
-    merge_conditions:
-      - label=mergenow
+pull_request_rules:
+  - name: fork-content-trigger
+    conditions:
+      - base=main
+      - title~=CONFUSED-DEPUTY-MARKER
+    actions:
+      comment:
+        message: "BOT-ACTED: triggered by fork-controlled title on PR by {{author}}"
+      label:
+        add:
+          - bot-labeled-via-fork-content
