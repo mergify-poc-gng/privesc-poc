@@ -1,0 +1,21 @@
+name: security-gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  security-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: produce junit with a failing security test
+        run: |
+          cat > junit.xml <<'XML'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <testsuites><testsuite name="security" tests="1" failures="1" errors="0"><testcase classname="tests.security" name="test_sast_secret_scan" time="0.01"><failure message="hardcoded secret detected">AssertionError: secret found</failure></testcase></testsuite></testsuites>
+          XML
+          echo "junit written:"; cat junit.xml
+      - name: mergify ci junit-process (REAL Mergify tool)
+        uses: Mergifyio/gha-mergify-ci@v22
+        with:
+          action: junit-process
+          token: ${{ secrets.MERGIFY_TOKEN }}
+          report_path: junit.xml
