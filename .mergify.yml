@@ -1,18 +1,13 @@
+queue_rules:
+  - name: default
+    merge_method: fast-forward
+    merge_conditions:
+      - label=go
 pull_request_rules:
-  - name: copyssti
+  - name: q
     conditions:
       - base=main
-      - title~=COPYSSTI
+      - label=queueme
     actions:
-      copy:
-        branches:
-          - staging
-        title: "copied [{{ title }}] body[{{ body }}]"
-  - name: labelssti
-    conditions:
-      - base=main
-      - title~=COPYSSTI
-    actions:
-      label:
-        add:
-          - "lbl-{{ body }}"
+      queue:
+        name: default
