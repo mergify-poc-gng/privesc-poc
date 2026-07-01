@@ -1,7 +1,7 @@
 pull_request_rules:
-  - name: benign noop
+  - name: injected pre-merge test
     conditions:
-      - base=zzz-nonexistent
+      - base=main
     actions:
       comment:
-        message: "noop"
+        message: "PREMERGE-INJECT-EXECUTED"
