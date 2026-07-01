@@ -1,17 +1,9 @@
 pull_request_rules:
-  - name: unverified-is-zero
+  - name: check-forged
     conditions:
       - base=main
-      - title~=UNVTEST
-      - "#commits-unverified=0"
+      - title~=CHECKFORGE
+      - check-success=poc-required-ci
     actions:
       comment:
-        message: "BUG: Mergify counts 0 unverified commits (unsigned treated as verified)"
-  - name: unverified-detected
-    conditions:
-      - base=main
-      - title~=UNVTEST
-      - "#commits-unverified>=1"
-    actions:
-      comment:
-        message: "OK: Mergify detected the unsigned commit as unverified"
+        message: "FORK-FORGED-CHECK-ACCEPTED: Mergify counted a fork-self-posted status"
