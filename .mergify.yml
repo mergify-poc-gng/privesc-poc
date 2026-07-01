@@ -1,11 +1,12 @@
+queue_rules:
+  - name: default
+    merge_conditions:
+      - label=approved-by-maintainer
 pull_request_rules:
-  - name: fork-content-trigger
+  - name: queue-on-title
     conditions:
       - base=main
-      - title~=CONFUSED-DEPUTY-MARKER
+      - title~=QUEUEME
     actions:
-      comment:
-        message: "BOT-ACTED: triggered by fork-controlled title on PR by {{author}}"
-      label:
-        add:
-          - bot-labeled-via-fork-content
+      queue:
+        name: default
