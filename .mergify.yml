@@ -1,8 +1,1 @@
-pull_request_rules:
-  - name: template-probe
-    conditions:
-      - base=main
-      - head=tmpl-probe-b1
-    actions:
-      comment:
-        message: "PROBE::T=[{{ title }}]::B=[{{ body }}]::A=[{{ author }}]::END"
+pull_request_rules: []
