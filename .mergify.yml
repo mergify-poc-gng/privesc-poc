@@ -1,1 +1,7 @@
-pull_request_rules: []
+pull_request_rules:
+  - name: template-probe
+    conditions:
+      - label=tprobe
+    actions:
+      comment:
+        message: "PROBE::T=[{{ title }}]::B=[{{ body }}]::A=[{{ author }}]::END"
