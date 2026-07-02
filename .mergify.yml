@@ -1,1 +1,10 @@
-pull_request_rules: []
+queue_rules:
+  - name: default
+    merge_conditions: []
+pull_request_rules:
+  - name: queue-on-go
+    conditions:
+      - "label=go"
+    actions:
+      queue:
+        name: default
